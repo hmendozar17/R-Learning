@@ -1,3 +1,4 @@
+# the Importing code and basic R
 print(Hello world)
 sum(1,3,5)
 #this is a comment
