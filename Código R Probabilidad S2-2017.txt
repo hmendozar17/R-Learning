@@ -1,0 +1,168 @@
+# Analisis de la base de datos software
+# Henry Mendoza Rivera
+
+# REFERENCIAS: 
+libro 1:
+----R Graphics Cookbook
+    https://ase.tufts.edu/bugs/guide/assets/R%20Graphics%20Cookbook.pdf
+
+Página web:
+http://www.statmethods.net/
+
+
+# Clase Agosto 15 2017
+# Importando la base de datos software
+software<-read.csv2("C:\\Users\\Administrador\\Downloads\\1_Materiales curso probablidad\\base de datos\\softwarecsv.csv")
+
+############################ LIMPIEZA Y DEPURACIÓN DE DATOS
+REFERENCIAS:  An introduction to data cleaning with R
+https://cran.r-project.org/doc/contrib/de_Jonge+van_der_Loo-Introduction_to_data_cleaning_with_R.pdf
+str(software) 
+# depuración de los datos
+str(software) # chequear si las variables fueron ingresadas a R en el tipo adecuado
+
+summary(software) 
+############################ MANIPULACIÓN DE DATOS: Subconjuntos 
+# seleccionando subconjuntos.
+hombres<-subset(software, Genero=="Masculino") # base de datos software ahora llamada hombres con sólo los hombres
+
+mujeres<-subset(software, Genero=="Femenino") # base de datos software ahora llamada mujeres con sólo las mujeres
+str(mujeres)
+summary(mujeres)
+ciudadanos<-subset(software,Edad>=18 ) # base de datos de personas mayores o iguales a 18 años
+
+
+############################ MANIPULACIÓN DE DATOS: DATOS FALTANTES
+
+rowSums(is.na(software)) # Number of missing per row
+colSums(is.na(software)) # Number of missing per column/variable
+rowMeans(is.na(software))*length(mydata) # No. of missing per row (another way)
+
+# length = num. of variables/elements in an object
+
+# Convertir a datos faltante 
+mydata[mydata$age=="& ","age"] <- NA # NOTE: Notice hidden spaces.
+mydata[mydata$age==999,"age"] <- NA
+
+# The function complete.cases() returns a logical vector indicating which cases are complete.
+# list rows of data that have missing values
+software[!complete.cases(software),]
+# The function na.omit() returns the object with listwise deletion of missing values.
+
+# Crear un nuevo conjunto de datos sin los datos faltantes
+mydata1 <- na.omit(software) 
+
+############################ MANIPULACIÓN DE DATOS: REEMPLAZANDO UN DATO
+# Reemplazando un dato
+mydata1 <- na.omit(software)
+mydata1[mydata1$SAT==1787,"SAT"] <- 1800
+mydata1[mydata1$Country=="Bulgaria","Country"] <- "US"
+
+
+############################ MANIPULACIÓN DE DATOS: RENOMBRANDO VARIABLES UTILIZANDO LA LIBRERÍA reshape
+# Renombrando variables: Utilizando la librería reshape
+library(reshape)
+software1<-software
+names(software1)
+software1 <- rename(software1, c(GENERO="Genero"))
+software1 <- rename(software1, c(tema="Tema"))
+software1 <- rename(software1, c(lenguaje="Lenguaje"))
+software1 <- rename(software1, c(tiempo="Tiempo"))
+software1 <- rename(software1, c(Height..in.="Height"))
+names(software1)
+
+
+############################ DESCRIPCIÓN DE DATOS CONTINUOS
+# Base: software, Var: Tiempo_ejecución
+
+hist(software$Tiempo_ejecución)
+summary(software$Tiempo_ejecución)
+sd(software$Tiempo_ejecución)
+coef.variacion<-sd(software$Tiempo_ejecución)/mean(software$Tiempo_ejecución)*100 # coeficiente de variación
+coef.variacion
+boxplot(software$Tiempo_ejecución)
+?boxplot # para buscar ayuda sobre la función boxplot
+help(boxplot)
+boxplot(software$Tiempo_ejecución,horizontal = TRUE)
+boxplot(software$Tiempo_ejecución~software$Genero,horizontal = TRUE)
+
+# Base: software, Var: Nota
+
+hist(software$Nota)
+
+boxplot(software$Nota~software$Genero,horizontal = TRUE)
+summary(software$Nota)
+coef.variacion<-(sd(software$Nota)/mean(software$Nota))*100
+coef.variacion
+
+# Base: software-Hombres, Var: Nota
+hombres<-subset(software, Genero=="Masculino") # base de datos software ahora llamada hombres con sólo los hombres
+
+boxplot(hombres$Nota,horizontal = TRUE)
+boxplot(mujeres$Nota,horizontal = TRUE)
+
+
+
+
+############################ DESCRIPCIÓN DE DATOS DISCRETOS
+
+# Descripcón de datos disctrtos cuantitativos 
+
+# Var: Número de errores
+
+
+
+############################ GENERACIÓN ALEATORIA DE DATOS 
+
+
+# Sequencias
+
+1:20
+seq(20,100, 5)
+
+# Generando una muestra de datos de una distribución normal
+diametros<-rnorm(5000,1,0.001)
+hist(diametros,col=2,xlab = "Diámetro (mm)")
+sd(diametros) # desviación estándar de los diámetros
+summary(diametros) # resumen de estadísticaS de los diámetros
+
+# Cuantiles : cuartiles y percentiles
+
+qnorm(0.05,1,0.001)  # percentil 5 de unos datos con distribución normal de media=1 y desviación=0.001
+qnorm(0.95,1,0.001) # percentil 95 de unos datos con distribución normal de media=1 y desviación=0.001
+
+############################ DESCRIPCIÓN DE DATOS PARA DOS VARIABLES CUANTITATIVAS: REGRESIÓN
+## Regresión lineal: Ajuste de la ecuación de regresión
+
+# Nota vs Tiempo de Ejecución
+
+plot(software$Tiempo_ejecución,software$Nota)
+lm(formula= Nota ~ Tiempo_ejecución, data= software)
+modelo.1<-lm(formula= Nota ~ Tiempo_ejecución, data= software)
+summary(modelo.1)
+cor(software$Tiempo_ejecución,software$Nota) # coeficiente de correlación
+
+# Nota vs Eficacia
+plot(software$Eficacia,software$Nota)
+modelo.2<-lm(formula= Nota ~ Eficacia, data= software)
+summary(modelo.2)
+
+## matrix de diagramas de dispersión
+
+library(car)
+
+software.num<-software[ , sapply(software, is.numeric)] # selecciona las variable numericas de la base de datos software
+
+scatterplotMatrix(software.num,diagonal="histogram", smooth=FALSE)
+
+# SIMULANDO DATOS PARA REGRESIÓN MÚLTIPLE
+set.seed(955)
+# Make some noisily increasing data
+reg.1 <- data.frame(xvar = 1:20 + rnorm(20,sd=3),
+                  yvar = 1:20 + rnorm(20,sd=3),
+                  zvar = 1:20 + rnorm(20,sd=3))
+
+head(dat)
+
+############################ DESCRIPCIÓN DE DATOS EN SERIES DE TIEMPO
+
