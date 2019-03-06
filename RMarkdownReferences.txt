@@ -1,0 +1,2 @@
+# This a reference for Rmarkdown
+http://mosaic-web.org/go/SM2-technique/data-in-r.html#preliminaries
