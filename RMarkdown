@@ -1,0 +1,26 @@
+---
+title: "HW 1"
+author: "Henry mendoza"
+date: "March 6, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Problem1
+to clean the database I.........
+
+```{r}
+#install.packages("openxlsx")
+getwd()
+#setwd("C:/Users/Student/Downloads")
+library(openxlsx)
+my.data1<-read.xlsx("softwareECSV.xlsx")
+#x<-read_excel("softwareECSV.xlsx", sheet = "softwareECSV")
+str(my.data1)
+summary(my.data1)
+my.data1$Sex<-as.factor(my.data1$Sex)
+#Reference:https://stackoverflow.com/questions/7049272/importing-excel-files-into-r-xlsx-or-xls
+```
