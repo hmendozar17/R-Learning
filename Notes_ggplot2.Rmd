@@ -15,9 +15,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 software<-read.csv("https://raw.githubusercontent.com/hmendozar17/R-Learning/master/softwareECSV.csv", header=TRUE)
 ## nrow(dataHW2) = 149 participants
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-```{r, echo=FALSE}
-summary(cars)
 ```
 
 ## Cleaning database Software
