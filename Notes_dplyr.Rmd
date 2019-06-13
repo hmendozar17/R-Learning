@@ -2,29 +2,112 @@
 title: "dplyr"
 author: "Henry Mendoza Rivera and Gloria Bautista"
 date: "6/12/2019"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    number_sections: true
+    self_contained: yes
+    css: corp-styles.css
+    highlight: haddock
+    theme: journal
+
+
 ---
+<img src="youtube.jpg" style="position:absolute;top:0px;right:0px;" />
+<div class="watermark">DRAFT</div>
+
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+# Manipulación de Datos con R: dplyr
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
+dplyr es una librería del paquete R ampliamente utilizada en la manipulación de datos. A continuación se presentan ejemplos de utilización de las principales funciones utilizando la base de datos airquality encontrada en la librería datasets.   
+
+# Instalacion de paquetes y carga de librerias
+
+```{r datasets,warning=FALSE,message=FALSE}
+#install.packages(c("dplyr","datasets"))
+library(dplyr)
+library(datasets)
+software<-read.csv("https://raw.githubusercontent.com/hmendozar17/R-Learning/master/softwareECSV.csv", header=TRUE)
+
+```
+# chequeando variables
+```{r}
+head(airquality)
+str(airquality)
+head(software)
+str(software)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+# Función: Filter 
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+La función Filter retornará todas las filas que satisfagan una condición dada. Por ejemplo, el siguiente código retornará todas las filas donde el **ozono** es superior a 35. Utilizamos el código de filter dentro de head para solo ver los primers 6 observaciones.
+**Note**: si no te ejecuta el codigo filter y ocurre el error: object 'Ozone not found' ejecuta nuevamente las librerias dplyr y datasets.
+
+
+
+```{r}
+head(filter(airquality, Ozone>15))
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+# Aplicacion a la base de datos software
+**Actividad 1:** seleccionar los estudiantes con tiempos de elaboración del programa de menos de  1 mes.
+```{r}
+attach(software)
+#detach(software)
+filter(software,LengthTime<30)
+```
+
+
+# Importando tablas de la base da datos softwaresql y ap de MySQL
+
+
+```{r}
+#install.packages(c("RMySQL","dbConnect"))
+library(DBI)
+library(RMySQL)
+con1 <- dbConnect(MySQL(),username='root',password='Gh041472@',dbname='softwaresql',host='localhost')
+dbListTables(con1)
+con2 <- dbConnect(MySQL(),username='root',password='Gh041472@',dbname='ap',host='localhost')
+dbListTables(con2)
+```
+
+# crear una tabla in R desde una tabla en MySQL desde una base de datos con unica tabla y una base de datos con varias tablas 
+```{r}
+myQuery1<- "SELECT * FROM softwareecsv;"
+software1<-dbGetQuery(con1, myQuery1)
+str(software1)
+myQuery2<- "SELECT * FROM ap.invoices;"
+invoices<-dbGetQuery(con2, myQuery2)
+str(invoices)
+```
+
+```{sql connection=con1}
+SELECT * FROM softwareecsv WHERE Sex = 'Male'
+```
+# Exportar tablas a formato csv
+```{r}
+write.csv(invoices,'invoices1.csv')
+```
+
+
+
+
+Refrence:
+1. Manipulación de datos con dplyr https://www.r-bloggers.com/data-manipulation-with-dplyr/
+1. Rmarkdown online Boook: https://bookdown.org/yihui/rmarkdown/html-document.html
+2. Edición de documemto en RMarkdown http://freerangestats.info/blog/2017/09/09/rmarkdown
+3. Tabla de contenidos en RMarkdown https://monashbioinformaticsplatform.github.io/2017-11-16-open-science-training/topics/rmarkdown.html
+2. How to Make a Database Connection in rMarkdown. http://www.jdatalab.com/data_science_and_data_mining/2018/11/03/rmarkdown-database-connection.html  
+3. R connection with MySQL: https://www.youtube.com/watch?v=zRFiG_IEIhY
+4. Exportar dataframe to .csv http://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/R/R-Manual/R-Manual5.html
+5. SQL filter Examples https://swcarpentry.github.io/sql-novice-survey/03-filter/
