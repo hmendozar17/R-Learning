@@ -4,6 +4,7 @@ author: "Henry Mendoza Rivera and Gloria Bautista"
 date: "6/12/2019"
 output: 
   html_document:
+    df_print: paged
     toc: true
     toc_depth: 2
     toc_float: true
@@ -12,6 +13,7 @@ output:
     css: corp-styles.css
     highlight: haddock
     theme: journal
+    
 
 
 ---
@@ -36,8 +38,8 @@ dplyr es una librería del paquete R ampliamente utilizada en la manipulación d
 #install.packages(c("dplyr","datasets"))
 library(dplyr)
 library(datasets)
-software<-read.csv("https://raw.githubusercontent.com/hmendozar17/R-Learning/master/softwareECSV.csv", header=TRUE)
-
+PATH<-"https://raw.githubusercontent.com/hmendozar17/R-Learning/master/softwareECSV.csv"
+software<-read.csv(PATH, header=TRUE)
 ```
 # chequeando variables
 ```{r}
@@ -50,8 +52,8 @@ str(software)
 
 # Función: Filter 
 
-La función Filter retornará todas las filas que satisfagan una condición dada. Por ejemplo, el siguiente código retornará todas las filas donde el **ozono** es superior a 35. Utilizamos el código de filter dentro de head para solo ver los primers 6 observaciones.
-**Note**: si no te ejecuta el codigo filter y ocurre el error: object 'Ozone not found' ejecuta nuevamente las librerias dplyr y datasets.
+La función Filter retornará todas las filas que satisfagan una condición dada. Por ejemplo, el siguiente código retornará todas las filas donde el **ozono** es superior a 35. Utilizamos el código de filter dentro de head para solo ver las primeras 6 observaciones.
+**Note**: si no se ejecuta el codigo filter y ocurre el error: Error in filter(airquality, Ozone > 35) : object 'Ozone' not found' . La solución es ejecutar nuevamente las librerias dplyr y datasets.
 
 
 
@@ -61,7 +63,7 @@ head(filter(airquality, Ozone>15))
 
 # Aplicacion a la base de datos software
 **Actividad 1:** seleccionar los estudiantes con tiempos de elaboración del programa de menos de  1 mes.
-```{r}
+```{r, cols.print=5, rows.print=6}
 attach(software)
 #detach(software)
 filter(software,LengthTime<30)
@@ -98,16 +100,68 @@ SELECT * FROM softwareecsv WHERE Sex = 'Male'
 ```{r}
 write.csv(invoices,'invoices1.csv')
 ```
+# Aplicando la función filter para seleccionar filas que satisfagan una condición definida en dos variables.
+```{r, cols.print=3, rows.print=5} 
+# en la visualización dejara ver solo 3 columnas. Si se deseara usar solo una consulta de esas tres columnas se podria usar la funcion select previamente a la función filter.   
+filter(airquality, Temp> 80 & Month> 5) 
+```
+### Uso se la función select previo al uso de la función filter.   
+```{r,airquality} 
+airquality %>%
+select(Ozone,Solar.R, Wind, Temp) %>%
+filter(Temp>=65, Ozone>20) 
+```
+# Ventajas de dplyr sobre herramientas SQL.
+dplyr permite realizar la selección de filas de una manera más simple e intuitiva, la cual podría ser más complicada de realizar con SQL.
+
+# Usando la funcion filter a un valor 
+```{r, cols.print=3, rows.print=5}
+filter(airquality, Temp>80 & Month>5) 
+```
+
+# Usando función filter para conectar múltiples condiciones de filtro
+
+```{r,airquality} 
+airquality %>%
+select(Ozone,Solar.R, Wind, Month, Temp) %>%
+filter(Month==5 & Temp>=20) 
+```
+```{r,airquality} 
+airquality %>%
+select(Ozone,Solar.R, Wind, Month, Temp) %>%
+filter(Month!=5 & Temp>=20) 
+```
+# Filter con valores múltiples
+```{r,airquality} 
+airquality %>%
+select(Ozone,Solar.R, Wind, Month) %>%
+filter(Month %in% c(5, 6)) 
+```
 
 
+```{r,airquality} 
+airquality %>%
+select(Ozone,Solar.R, Wind, Month) %>%
+filter(is.na(Ozone)) 
 
+```
 
-Refrence:
+```{r,airquality} 
+airquality %>%
+select(Ozone,Solar.R, Wind, Month) %>%
+filter(!is.na(Ozone)) 
+
+```
+
+# Continuar con Mutate 
+
+Reference:
 1. Manipulación de datos con dplyr https://www.r-bloggers.com/data-manipulation-with-dplyr/
-1. Rmarkdown online Boook: https://bookdown.org/yihui/rmarkdown/html-document.html
-2. Edición de documemto en RMarkdown http://freerangestats.info/blog/2017/09/09/rmarkdown
-3. Tabla de contenidos en RMarkdown https://monashbioinformaticsplatform.github.io/2017-11-16-open-science-training/topics/rmarkdown.html
-2. How to Make a Database Connection in rMarkdown. http://www.jdatalab.com/data_science_and_data_mining/2018/11/03/rmarkdown-database-connection.html  
-3. R connection with MySQL: https://www.youtube.com/watch?v=zRFiG_IEIhY
-4. Exportar dataframe to .csv http://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/R/R-Manual/R-Manual5.html
-5. SQL filter Examples https://swcarpentry.github.io/sql-novice-survey/03-filter/
+2. Filtering data with dplyr https://blog.exploratory.io/filter-data-with-dplyr-76cf5f1a258e
+3. Rmarkdown online Boook: https://bookdown.org/yihui/rmarkdown/html-document.html
+4. Edición de documemto en RMarkdown http://freerangestats.info/blog/2017/09/09/rmarkdown
+5. Tabla de contenidos en RMarkdown https://monashbioinformaticsplatform.github.io/2017-11-16-open-science-training/topics/rmarkdown.html
+6. How to Make a Database Connection in rMarkdown. http://www.jdatalab.com/data_science_and_data_mining/2018/11/03/rmarkdown-database-connection.html  
+7. R connection with MySQL: https://www.youtube.com/watch?v=zRFiG_IEIhY
+8. Exportar dataframe to .csv http://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/R/R-Manual/R-Manual5.html
+9. SQL filter Examples https://swcarpentry.github.io/sql-novice-survey/03-filter/
