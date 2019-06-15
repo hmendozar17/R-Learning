@@ -1,4 +1,4 @@
-Género;Edad;Tema del programa;Lenguaje usado;OS usado;Tiempo invertido (dias);Eficacia (%);Calidad programa;# Errores;Tiempo de ejecución (s);Tamaño programa (MB);Nota
+GÃ©nero;Edad;Tema del programa;Lenguaje usado;OS usado;Tiempo invertido (dias);Eficacia (%);Calidad programa;# Errores;Tiempo de ejecuciÃ³n (s);TamaÃ±o programa (MB);Nota
 Femenino;23;Investigativo;C;Linux;32;100;Alto;3;7,452365;89;5
 Femenino;21;Academico;C;Linux;46;98;Alto;5;0,48356;41;5
 Masculino;21;Empresarial;C;Linux;47;92;Alto;5;6,210124;24;4,7
