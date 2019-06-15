@@ -30,8 +30,11 @@ library(ggplot2)
 ```
 
 ## Ayuda con ggplot2
-
+```{r}
 ?ggplot2 # ayuda para ggplot2
+```
+
+
 
 data(package = .packages(all.available = TRUE))# to list the data sets in all *available* packages.
 
