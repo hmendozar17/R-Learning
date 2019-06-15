@@ -23,4 +23,109 @@ software<-read.csv("https://raw.githubusercontent.com/hmendozar17/R-Learning/mas
 str(software)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+# instalacion de ggplot2
+```{r}
+install.packages("ggplot2")
+library(ggplot2)
+```
+
+## Ayuda con ggplot2
+
+?ggplot2 # ayuda para ggplot2
+
+data(package = .packages(all.available = TRUE))# to list the data sets in all *available* packages.
+
+data(package="ggplot2") # to list  the data stes in ggplot2 package
+data("mtcars")
+mtcars
+attach(mtcars)
+names(mtcars)
+
+# create factors with value labels 
+
+gear <- factor(gear,levels=c(3,4,5),labels=c("3gears","4gears","5gears")) 
+
+am <- factor(am,levels=c(0,1), labels=c("Automatic","Manual")) 
+
+cyl <- factor(cyl,levels=c(4,6,8),labels=c("4cyl","6cyl","8cyl")) 
+
+# Kernel density plots for mpg
+# grouped by number of gears (indicated by color)
+
+qqplot(mpg, data=mtcars, geom="density", fill=gear, alpha=I(.5),main="Distribution of Gas Milage", xlab="Miles Per Gallon",ylab="Density")
+
+
+
+# Scatterplot of mpg vs. hp for each combination of gears and cylinders
+# in each facet, transmittion type is represented by shape and color
+qplot(hp, mpg, data=mtcars, shape=am, color=am, 
+      facets=gear~cyl, size=I(3),
+      xlab="Horsepower", ylab="Miles per Gallon") 
+
+# Separate regressions of mpg on weight for each number of cylinders
+qplot(wt, mpg, data=mtcars, geom=c("point", "smooth"), 
+      method="lm", formula=y~x, color=cyl, 
+      main="Regression of MPG on Weight", 
+      xlab="Weight", ylab="Miles per Gallon")
+
+# Boxplots of mpg by number of gears 
+# observations (points) are overlayed and jittered
+qplot(gear, mpg, data=mtcars, geom=c("boxplot", "jitter"), 
+      fill=gear, main="Mileage by Gear Number",
+      xlab="", ylab="Miles per Gallon")
+
+------------------------------------------------------
+  GGplot for more than 2 graphics
+--------------------------------------------
+  
+  install.packages("ggplot")
+  library(ggplot2)
+
+# This example uses the ChickWeight dataset, which comes with ggplot2
+# First plot
+p1 <- 
+  ggplot(ChickWeight, aes(x=Time, y=weight, colour=Diet, group=Chick)) +
+  geom_line() +
+  ggtitle("Growth curve for individual chicks")
+
+# Second plot
+p2 <- 
+  ggplot(ChickWeight, aes(x=Time, y=weight, colour=Diet)) +
+  geom_point(alpha=.3) +
+  geom_smooth(alpha=.2, size=1) +
+  ggtitle("Fitted growth curve per diet")
+
+# Third plot
+p3 <- 
+  ggplot(subset(ChickWeight, Time==21), aes(x=weight, colour=Diet)) +
+  geom_density() +
+  ggtitle("Final weight, by diet")
+
+# Fourth plot
+p4 <- 
+  ggplot(subset(ChickWeight, Time==21), aes(x=weight, fill=Diet)) +
+  geom_histogram(colour="black", binwidth=50) +
+  facet_grid(Diet ~ .) +
+  ggtitle("Final weight, by diet") +
+  theme(legend.position="none")        # No legend (redundant in this graph)    
+
+
+
+
+
+#### using categorical variable
+
+fit <- glm(wealth_indicator ~  factor(ranking) + age_in_years + factor(ranking) * age_in_years)
+
+
+
+
+
+
+
+
+
+
+
+
+
