@@ -1,4 +1,4 @@
-GENERO;Edad;tema;lenguaje;OS;tiempo;Eficacia;Calidad;Errores;TiempoEjec;TamaProg;Nota
+GENERO;Edad;Tema;Lenguaje;OS;Tiempo;Eficacia;Calidad;Errores;TiempoEjec;TamaProg;Nota
 Masculino;15;Recreativo;Java;Windows;36;75;Media;5;4,32545;12;3,8
 Femenino;16;Academico;Java;Windows;45;100;Alta;0;0,12354;13;5
 Masculino;18;Empresarial;Java;Linux;37;80;Media;3;13,45668;21;3,5
