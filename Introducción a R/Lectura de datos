@@ -13,6 +13,10 @@
 # Download R according your Operation System
 #\Select the latest release, for example R-3.5.2.pkg
 # Follow the steps to install R
+
+MAC installation
+https://cran.r-project.org/bin/macosx/
+Hint: R-3.5.2.pkg
 #######################################################################################
 #                      How to install RStudio?                                              #
 #######################################################################################
