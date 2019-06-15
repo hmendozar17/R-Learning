@@ -40,7 +40,11 @@ data(package = .packages(all.available = TRUE))# to list the data sets in all *a
 
 data(package="ggplot2") # to list  the data stes in ggplot2 package
 ```
+# Diagrama de barras 
+## Visualización de datos categóricos
 
+
+# Visualización de datos resumen (medias)
 
 
 
@@ -125,7 +129,8 @@ p4 <-
 
 fit <- glm(wealth_indicator ~  factor(ranking) + age_in_years + factor(ranking) * age_in_years)
 
-
+References
+http://www.cookbook-r.com/Graphs/Bar_and_line_graphs_(ggplot2)/
 
 
 
