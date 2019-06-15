@@ -13,8 +13,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-software<-read.csv("https://raw.githubusercontent.com/hmendozar17/R-Learning/master/softwareECSV.csv", header=TRUE)
-## nrow(dataHW2) = 149 participants
+software<-read.csv("https://raw.githubusercontent.com/hmendozar17/R-Learning/master/softwareESP.csv", header=TRUE)
+## nrow(software) = 149 participants
 ```
 
 ## Cleaning database Software
@@ -44,18 +44,22 @@ data(package="ggplot2") # to list  the data stes in ggplot2 package
 
 
 
+```{r}
+ggplot(software, aes(x = software$Sex)) + geom_bar()
+```
+
+
+```{r}
+# Very basic bar graph
+ggplot(data=software, aes(x=time, y=total_bill)) +
+    geom_bar(stat="identity")
+```
+
 data("mtcars")
 mtcars
 attach(mtcars)
 names(mtcars)
 
-# create factors with value labels 
-
-gear <- factor(gear,levels=c(3,4,5),labels=c("3gears","4gears","5gears")) 
-
-am <- factor(am,levels=c(0,1), labels=c("Automatic","Manual")) 
-
-cyl <- factor(cyl,levels=c(4,6,8),labels=c("4cyl","6cyl","8cyl")) 
 
 # Kernel density plots for mpg
 # grouped by number of gears (indicated by color)
@@ -128,6 +132,13 @@ fit <- glm(wealth_indicator ~  factor(ranking) + age_in_years + factor(ranking) 
 
 
 
+# create factors with value labels 
+
+gear <- factor(gear,levels=c(3,4,5),labels=c("3gears","4gears","5gears")) 
+
+am <- factor(am,levels=c(0,1), labels=c("Automatic","Manual")) 
+
+cyl <- factor(cyl,levels=c(4,6,8),labels=c("4cyl","6cyl","8cyl")) 
 
 
 
