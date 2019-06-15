@@ -43,9 +43,7 @@ data(package="ggplot2") # to list  the data stes in ggplot2 package
 
 
 
-data(package = .packages(all.available = TRUE))# to list the data sets in all *available* packages.
 
-data(package="ggplot2") # to list  the data stes in ggplot2 package
 data("mtcars")
 mtcars
 attach(mtcars)

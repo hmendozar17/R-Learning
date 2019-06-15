@@ -1,24 +1,4 @@
-# Lecture 2: march 6
-x<-sum(1,2,3) #this is a sum
-x
-(x<-sum(1,2,3))
-?lm
-age<-c(35,26,30,40,35,32,40,21,32,25)
 
-weight.1<-c(70,74,75,66,74,66,75,80,90,85)
-
-height<-c(180,190,180,160,160,165,180,165,170,210)
-
-gender<-c("M","F","M","F","F","F","M","F","F","M")
-
-stratum<-c("3","3","5","4","4","4","5","4","4","4")
-my.data<-data.frame(age,weight.1,height,gender,stratum)
-head(my.data)
-tail(my.data)
-henry<-c(1,1,1,1,2,5,5,5,5,5,5,5,5,5,5,5,7,7,7,7,7,7)
-x1<-c(1:50)
-x1
-str(my.data)
 
 # install multiple packages at once
 install.packages(pkgs = c("dplyr", "ggplot2", "ggformula","mosaic", "supernova", "lsr","Lock5Data", "Lock5withR",
