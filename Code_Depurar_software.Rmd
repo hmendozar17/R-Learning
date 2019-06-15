@@ -1,0 +1,27 @@
+---
+title: "Code_depurar_software"
+author: "Henry and Gloria"
+date: "6/15/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+```{r}
+softwareESP<-read.csv("https://raw.githubusercontent.com/hmendozar17/R-Learning/master/Datasets/softwareESPdepurada.csv", header=TRUE,sep = ";")
+```
+
+```{r}
+str(softwareESP)
+head(softwareESP)
+```
+La variable TiempoEjec y Nota son tipo facor. Vamos a convertirlas a numerica
+```{r}
+softwareESP$TiempoEjec<-as.numeric(softwareESP$TiempoEjec)
+str(softwareESP)
+```
+
+
