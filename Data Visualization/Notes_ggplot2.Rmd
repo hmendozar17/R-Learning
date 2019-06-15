@@ -43,16 +43,11 @@ data(package="ggplot2") # to list  the data stes in ggplot2 package
 # Diagrama de barras 
 ## Visualización de datos categóricos
 
-
-# Visualización de datos resumen (medias)
-
-
-
 ```{r}
 ggplot(software, aes(x = software$Sex)) + geom_bar()
 ```
 
-
+# Visualización de datos resumen (medias)
 ```{r}
 # Very basic bar graph
 ggplot(data=software, aes(x=time, y=total_bill)) +
