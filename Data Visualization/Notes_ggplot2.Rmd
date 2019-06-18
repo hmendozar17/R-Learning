@@ -8,20 +8,27 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+## Estableciendo formatos
+```{r}
+options(scipen=999)  # turn-off scientific notation like 1e+48
+theme_get()
+#theme_set(theme_bw())  # pre-set the bw theme.
+```
 
-## Database: Software
+## Cargando la base de datos: Software
 
 
 ```{r}
 
-software<-read.csv("https://raw.githubusercontent.com/hmendozar17/R-Learning/master/Datasets/softwareESP.csv", header=TRUE,sep = ";")
+softwareESP<-read.csv("https://raw.githubusercontent.com/hmendozar17/R-Learning/master/Datasets/softwareESPdepurada.csv", header=TRUE,sep = ";")
 ## nrow(software) = 149 participants
 ```
 
 ## Cleaning database Software
 
 ```{r}
-str(software)
+str(softwareESP)
+softwareESP$TiempoEjec<-as.numeric(softwareESP$TiempoEjec)
 str(softwareESP)
 ```
 
@@ -46,7 +53,25 @@ data(package="ggplot2") # to list  the data stes in ggplot2 package
 ## Visualización de datos categóricos
 
 ```{r}
-ggplot(software, aes(x = software$Sex)) + geom_bar()
+g1<-ggplot(softwareESP, aes(x =a$GENERO))
+g1
+# without using ggplot 2
+with(softwareESP, table(GENERO))
+```
+
+
+```{r}
+#Hemerson code start
+a<-softwareESP %>% group_by(GENERO) %>% summarize(mean(Nota))
+a
+colnames(a)<-c("Genero","Nota")
+
+#Hemerson code end
+g1<-ggplot(a, aes(x =a$GENERO,y=a$Nota))
+g1
+?geom_bar()       
+g1+ geom_bar()+labs(title = "Distribución de los estudiantes por Genero")
+
 ```
 
 # Visualización de datos resumen (medias)
@@ -60,6 +85,24 @@ data("mtcars")
 mtcars
 attach(mtcars)
 names(mtcars)
+
+# Boxplot
+```{r}
+p <- ggplot(softwareESP, aes(x =softwareESP$GENERO , y = softwareESP$TiempoEjec)) + 
+  geom_boxplot() +
+  theme_bluewhite()
+p
+```
+
+
+# Diagrama de dispersion
+```{r}
+Nota.TiempoEjec <- ggplot(softwareESP, aes(softwareESP$Nota, softwareESP$TiempoEjec)) +
+  geom_point() 
+Nota.TiempoEjec
+
+
+```
 
 
 # Kernel density plots for mpg
